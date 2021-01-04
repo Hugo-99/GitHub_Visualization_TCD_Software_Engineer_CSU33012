@@ -10,6 +10,8 @@
 
 		<!-- D3.js -->
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js" charset="utf-8"></script>
+
+		<script src="js/octokit-rest.min.js"></script>
 		
 		<style>
 			body {
@@ -34,6 +36,15 @@
 	
 	</head>
 	<body>
+
+		<script src="js/front.js"></script>
+
+		<form id="search_form" action="runSearch()">
+			Username : <input type="text" id="userName" name="userName" placeholder="Hugo-99">
+			auth token: <input type="text" id="authToken" name="authToken" placeholder="Optional">
+            <button type="submit" class="card">Run</button>
+		</form>
+
 
 		<div class="radarChart"></div>
 
