@@ -21,11 +21,11 @@ let input
 
 let runSearch = function (input_name, input_token){
     input = input_name
-    if(input_name == null){
+    if(input_name === null){
         window.location.reload(false)
     }
     else{
-        if(input_token != undefined){
+        if(input_token !== undefined){
             octokit = Octokit({
                 auth: userAuthToken,
                 userAgent: 'GitHub API Access and Visualisation'
