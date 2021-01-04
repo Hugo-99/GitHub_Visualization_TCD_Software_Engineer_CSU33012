@@ -11,10 +11,13 @@ let getUserData = function (user_name){
 }
 
 let search = document.getElementById("search_form");
-search.addEventListener("submit", theBar => {
-    theBar.preventDefault()
-    runSearch(document.getElementById("userName").value, (document.getElementById("authToken").value !== "" ? document.getElementById("authToken").value : undefined))
-})
+if(search){
+    search.addEventListener("submit", theBar => {
+        theBar.preventDefault()
+        runSearch(document.getElementById("userName").value, (document.getElementById("authToken").value !== "" ? document.getElementById("authToken").value : undefined))
+    })
+}
+
 
 let octokit
 let input
