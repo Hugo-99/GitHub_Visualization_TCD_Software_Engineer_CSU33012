@@ -22,18 +22,17 @@ let getUserLanguages = function (user_repos){
     console.log(list)
 }
 
-let select = document.getElementById('dropDownRepo');
-
 let displayRepos = function (user_repos){
-    let repoList = [];
-    var option;
+    var repo_name;
     for (var key in user_repos.data){
-        repoList.push(user_repos.data[key].name)
-
-        option = document.createElement('option');
-        option.value = key;
-        option.text = user_repos.data[key].name;
-        select.add(option);
+        //onclick="drawBarChartsShort('${name}')"
+        repo_name = user_repos.data[key].name
+        document.getElementById("dropDownRepo").innerHTML = ""
+        try {
+            document.getElementById("dropDownRepo").innerHTML += `<option>${repo_name}</option>`
+        } catch (e) {
+            console.error(`Could not add repo to dropdown... Skipping \n ${e}`)
+        }
     }
 }
 
@@ -85,6 +84,10 @@ let runSearch = function (input_name, input_token){
             });
         }
     }
+    outputResultLocator()
     run(input)
-    getUserData(input)
+}
+
+let outputResultLocator = function(){
+    document.getElementById("output_result").innerHTML = '<select id="dropdownRepo"></select>'
 }
