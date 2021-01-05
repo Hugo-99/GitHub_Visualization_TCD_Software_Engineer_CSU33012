@@ -11,16 +11,19 @@ let getUserData = function (user_name){
     })
 }
 
-let getUserLanguages = function (user_repos){
-    let list = [];
-    user_repos.data.forEach(repo =>{
-        list.push(octokit.repos.listLanguages({
-            owner: input,
-            repo: repo.name
-        }))
-    })
+let getRepoCommits = function (cur_repo){
+    let commitPromise = octokit.repos.listCommits({
+        owner: input,
+        repo: cur_repo,
+    });
 
-    console.log(list)
+    commitPromise.then(
+    function(result){
+        console.log(result.data)
+    },
+    function(error){
+        console.log(error)
+    })
 }
 
 let getRepoLanguages = function (cur_repo){
@@ -83,6 +86,7 @@ let displayRepos = function (user_repos){
     try {
         for (var key in user_repos.data){
             repo_name = user_repos.data[key].name
+            getRepoCommits(repo_name)
             document.getElementById("dropDownRepo").innerHTML += `<option onclick="getRepoLanguages('${repo_name}')">${repo_name}</option>`
         }
     }
@@ -101,7 +105,6 @@ let run = function (input_name){
             console.log(result.data)
             getUserData(input)
             displayRepos(result)
-            getUserLanguages(result)
         },
         function(error){
             console.log(error)
@@ -130,14 +133,12 @@ let runSearch = function (input_name, input_token){
                 auth: input_token,
                 userAgent: 'GitHub API Access and Visualisation'
             });
-            window.location.reload(false)
         }
         else {
             console.log("No Access Token Found! \n Rates will be limited.")
             octokit = Octokit({
                 userAgent: 'GitHub API Access and Visualisation'
             });
-            window.location.reload(false)
         }
     }
     outputResultLocator()
