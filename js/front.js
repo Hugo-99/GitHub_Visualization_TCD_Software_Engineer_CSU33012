@@ -34,9 +34,8 @@ let getRepoLanguages = function (cur_repo){
         },
         function(error){
             console.log(error)
-        })
+        }
     )
-
 }
 
 let displayRepos = function (user_repos){
