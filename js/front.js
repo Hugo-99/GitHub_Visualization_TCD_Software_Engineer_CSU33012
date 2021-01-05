@@ -10,14 +10,27 @@ let getUserData = function (user_name){
     })
 }
 
-let search = document.getElementById("search_form");
+let run = function (input_name){
+    let repoPromise = octokit.repos.listForUser({
+        username: usrName
+    })
+
+    repoPromise.then(
+        function(result){
+            console.log(result.data)
+        },
+        function(error){
+            console.log(error)
+        })
+}
+
+let search = document.getElementById("search_form")
 if(search){
     search.addEventListener("submit", theBar => {
         theBar.preventDefault()
         runSearch(document.getElementById("userName").value, (document.getElementById("authToken").value !== "" ? document.getElementById("authToken").value : undefined))
     })
 }
-
 
 let octokit
 let input
@@ -41,5 +54,6 @@ let runSearch = function (input_name, input_token){
             });
         }
     }
+    run(input)
     getUserData(input)
 }
