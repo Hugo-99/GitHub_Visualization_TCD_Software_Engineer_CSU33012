@@ -27,7 +27,6 @@ let getRepoLanguages = function (cur_repo){
         owner: input,
         repo: cur_repo
     })
-
     curRepoPromise.then(
         function(result){
             console.log(result.data)
@@ -104,5 +103,5 @@ let runSearch = function (input_name, input_token){
 }
 
 let outputResultLocator = function(){
-    document.getElementById("output_result").innerHTML = '<select id="dropDownRepo"></select>'
+    document.getElementById("output_result").innerHTML = '<select id="dropDownRepo" onmousedown="if(this.options.length>10){this.size=10;}" onchange="this.size=0;" onblur="this.size=0;"></select>'
 }
