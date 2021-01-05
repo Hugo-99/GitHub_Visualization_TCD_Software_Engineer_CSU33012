@@ -73,7 +73,7 @@ let displayUserData = function (user_info){
     Following: ${user_info.following}  \n<br/>
     Bio: ${user_info.bio == null ? "Unknown" : user_info.bio}  \n<br/>
     Public Repos: ${user_info.public_repos}  \n<br/>
-    Hireable: ${user_info.hireable == null ? "Not published" : data.hireable}  \n<br/>
+    Hireable: ${user_info.hireable == null ? "Unknown" : data.hireable}  \n<br/>
     Type: ${user_info.type}</p>  \n`
 }
 
@@ -130,12 +130,14 @@ let runSearch = function (input_name, input_token){
                 auth: input_token,
                 userAgent: 'GitHub API Access and Visualisation'
             });
+            window.location.reload(false)
         }
         else {
             console.log("No Access Token Found! \n Rates will be limited.")
             octokit = Octokit({
                 userAgent: 'GitHub API Access and Visualisation'
             });
+            window.location.reload(false)
         }
     }
     outputResultLocator()
