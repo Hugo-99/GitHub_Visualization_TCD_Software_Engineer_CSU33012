@@ -22,21 +22,31 @@ let getUserLanguages = function (user_repos){
     console.log(list)
 }
 
+let select = document.getElementById('dropDownRepo');
+
+let displayRepos = function (user_repos){
+    let repoList = [];
+    var option;
+    for (var key in user_repos.data){
+        repoList.push(user_repos.data[key].name)
+
+        option = document.createElement('option');
+        option.value = key;
+        option.text = user_repos.data[key].name;
+        select.add(option);
+    }
+}
+
 let run = function (input_name){
     let repoPromise = octokit.repos.listForUser({
         username: input_name
     })
 
-    let repoList = [];
+    
 
     repoPromise.then(
         function(result){
             console.log(result.data)
-            
-            for (var key in result.data){
-                repoList.push(result.data[key].name)
-            }
-            console.log(repoList)
             getUserLanguages(result)
         },
         function(error){
