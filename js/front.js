@@ -10,6 +10,18 @@ let getUserData = function (user_name){
     })
 }
 
+let getUserLanguages = function (user_repos){
+    let list = [];
+    user_repos.data.forEach(repo =>{
+        list.push(octokit.repos.listLanguages({
+            owner: input,
+            repo: repo.name
+        }))
+    })
+
+    console.log(list)
+}
+
 let run = function (input_name){
     let repoPromise = octokit.repos.listForUser({
         username: input_name
@@ -18,6 +30,7 @@ let run = function (input_name){
     repoPromise.then(
         function(result){
             console.log(result.data)
+            getUserLanguages(result)
         },
         function(error){
             console.log(error)
