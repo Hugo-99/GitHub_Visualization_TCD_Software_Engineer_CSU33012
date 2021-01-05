@@ -66,12 +66,14 @@ let drawLineChart = function (cur_data){
     var layout = {
         title: 'Line Dash',
         xaxis: {
-          range: [0.75, 5.25],
-          autorange: true
+            title: 'Weeks',
+            range: [0.75, 5.25],
+            autorange: true
         },
         yaxis: {
-          range: [0, 18.5],
-          autorange: true
+            title: 'Commit Counts',
+            range: [0, 18.5],
+            autorange: true
         },
         legend: {
           y: 0.5,
