@@ -27,9 +27,16 @@ let run = function (input_name){
         username: input_name
     })
 
+    let repoList = [];
+
     repoPromise.then(
         function(result){
             console.log(result.data)
+            
+            for (var key in result.data){
+                repoList.push(result.data[key].name)
+            }
+            console.log(repoList)
             getUserLanguages(result)
         },
         function(error){
