@@ -120,7 +120,15 @@ let drawPieChart = function (cur_data){
       
     var layout = {
         height: 400,
-        width: 500
+        width: 500,
+
+        legend: {
+            y: 0.5,
+            traceorder: 'reversed',
+            font: {
+              size: 16
+            }
+        }
     };
       
     Plotly.newPlot('pieDiv', data, layout);
