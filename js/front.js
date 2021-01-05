@@ -12,7 +12,7 @@ let getUserData = function (user_name){
 
 let run = function (input_name){
     let repoPromise = octokit.repos.listForUser({
-        username: usrName
+        username: input_name
     })
 
     repoPromise.then(
