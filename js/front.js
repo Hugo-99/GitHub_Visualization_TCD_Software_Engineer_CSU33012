@@ -11,18 +11,78 @@ let getUserData = function (user_name){
 }
 
 let getRepoCommits = function (cur_repo){
-    let commitPromise = octokit.repos.listCommits({
+    let commitPromise = octokit.repos.getContributorsStats({
         owner: input,
         repo: cur_repo,
     });
 
+    let contributors = [];
+
+
     commitPromise.then(
     function(result){
-        console.log(result.data)
+        
+        for(var i in result.data){
+
+            let weeks = [];
+            let commits = [];
+            var author = result.data[i].author.login
+            
+            for(var j in result.data[i].weeks){
+                var cur = result.data[i].weeks[j]
+                weeks.push(j)
+                commits.push(cur.c)
+            }
+
+            contributors.push({author, weeks: weeks, commits: commits})
+        }
+        console.log(contributors)
+        drawLineChart(contributors)
     },
     function(error){
         console.log(error)
     })
+}
+
+let drawLineChart = function (cur_data){
+    var data = []
+
+    for(var i in cur_data){
+        var tmp = cur_data[i]
+        var trace = {
+            x: tmp.weeks,
+            y: tmp.commits,
+            mode: 'lines',
+            name: tmp.author,
+            line: {
+              dash: 'solid',
+              width: 4
+            }
+        };
+
+        data.push(trace)
+    }
+
+    var layout = {
+        title: 'Line Dash',
+        xaxis: {
+          range: [0.75, 5.25],
+          autorange: false
+        },
+        yaxis: {
+          range: [0, 18.5],
+          autorange: false
+        },
+        legend: {
+          y: 0.5,
+          traceorder: 'reversed',
+          font: {
+            size: 16
+          }
+        }
+      };
+      
+      Plotly.newPlot('myDiv', data, layout);
 }
 
 let getRepoLanguages = function (cur_repo){
@@ -84,8 +144,7 @@ let displayRepos = function (user_repos){
     try {
         for (var key in user_repos.data){
             repo_name = user_repos.data[key].name
-            getRepoCommits(repo_name)
-            document.getElementById("dropDownRepo").innerHTML += `<option onclick="getRepoLanguages('${repo_name}')">${repo_name}</option>`
+            document.getElementById("dropDownRepo").innerHTML += `<option onclick="getRepoLanguages('${repo_name}');getRepoCommits('${repo_name}');">${repo_name}</option>`
         }
     }
     catch (e) {
