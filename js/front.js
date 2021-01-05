@@ -47,6 +47,7 @@ let run = function (input_name){
     repoPromise.then(
         function(result){
             console.log(result.data)
+            displayRepos(result)
             getUserLanguages(result)
         },
         function(error){
