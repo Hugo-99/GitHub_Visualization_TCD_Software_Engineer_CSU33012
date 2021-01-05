@@ -27,9 +27,34 @@ let getRepoLanguages = function (cur_repo){
         owner: input,
         repo: cur_repo
     })
+    
+    let val = [];
+    let keys = [];
+
     curRepoPromise.then(
         function(result){
             console.log(result.data)
+
+            for(var i in result.data){
+                val.push(result.data[i])
+                keys.push(i)
+            }
+            
+            var data = [{
+                values: val,
+                labels: keys,
+                type: 'pie'
+            }];
+              
+            var layout = {
+                height: 400,
+                width: 500
+            };
+              
+            Plotly.newPlot('myDiv', data, layout);
+
+            console.log(val)
+            console.log(keys)
         },
         function(error){
             console.log(error)
