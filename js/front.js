@@ -4,6 +4,7 @@ let getUserData = function (user_name){
     aPromise.then(
     function(result){
         console.log(result.data)
+        displayUserData(result.data)
     },
     function(error){
         console.log(error)
@@ -27,34 +28,11 @@ let getRepoLanguages = function (cur_repo){
         owner: input,
         repo: cur_repo
     })
-    
-    let val = [];
-    let keys = [];
 
     curRepoPromise.then(
         function(result){
             console.log(result.data)
-
-            for(var i in result.data){
-                val.push(result.data[i])
-                keys.push(i)
-            }
-            
-            var data = [{
-                values: val,
-                labels: keys,
-                type: 'pie'
-            }];
-              
-            var layout = {
-                height: 400,
-                width: 500
-            };
-              
-            Plotly.newPlot('myDiv', data, layout);
-
-            console.log(val)
-            console.log(keys)
+            drawPieChart(result.data)
         },
         function(error){
             console.log(error)
@@ -62,12 +40,48 @@ let getRepoLanguages = function (cur_repo){
     )
 }
 
+let drawPieChart = function (cur_data){
+    let val = [];
+    let keys = [];
+
+    for(var i in cur_data){
+        val.push(cur_data[i])
+        keys.push(i)
+    }
+
+    var data = [{
+        values: val,
+        labels: keys,
+        type: 'pie'
+    }];
+      
+    var layout = {
+        height: 400,
+        width: 500
+    };
+      
+    Plotly.newPlot('myDiv', data, layout);
+}
+
+let displayUserData = function (user_info){
+    document.getElementById("userInfo").innerHTML = `<img src="${user_info.avatar_url}" style="margin-top:0px ; align:left"></img><br/>
+    <p class="user-text">
+    Username: ${user_info.login}  \n<br/>
+    Name: ${user_info.name == null ? "Unknown" : user_info.name}  \n<br/>
+    Email: ${user_info.email == null ? "Unknown" : user_info.email}  \n<br/>
+    Followers: ${user_info.followers}  \n<br/>
+    Following: ${user_info.following}  \n<br/>
+    Bio: ${user_info.bio == null ? "Unknown" : user_info.bio}  \n<br/>
+    Public Repos: ${user_info.public_repos}  \n<br/>
+    Hireable: ${user_info.hireable == null ? "Not published" : data.hireable}  \n<br/>
+    Type: ${user_info.type}</p>  \n`
+}
+
 let displayRepos = function (user_repos){
     var repo_name;
     document.getElementById("dropDownRepo").innerHTML = ""
     try {
         for (var key in user_repos.data){
-            //onclick="drawBarChartsShort('${name}')"
             repo_name = user_repos.data[key].name
             document.getElementById("dropDownRepo").innerHTML += `<option onclick="getRepoLanguages('${repo_name}')">${repo_name}</option>`
         }
@@ -85,6 +99,7 @@ let run = function (input_name){
     repoPromise.then(
         function(result){
             console.log(result.data)
+            getUserData(input)
             displayRepos(result)
             getUserLanguages(result)
         },
@@ -112,7 +127,7 @@ let runSearch = function (input_name, input_token){
     else{
         if(input_token !== undefined){
             octokit = Octokit({
-                auth: userAuthToken,
+                auth: input_token,
                 userAgent: 'GitHub API Access and Visualisation'
             });
         }
@@ -128,5 +143,6 @@ let runSearch = function (input_name, input_token){
 }
 
 let outputResultLocator = function(){
-    document.getElementById("output_result").innerHTML = '<select id="dropDownRepo" onmousedown="if(this.options.length>10){this.size=10;}" onchange="this.size=0;" onblur="this.size=0;"></select>'
+    document.getElementById("output_result").innerHTML 
+    = '<select id="dropDownRepo" onmousedown="if(this.options.length>10){this.size=10;}" onchange="this.size=0;" onblur="this.size=0;"></select><div id="userInfo"></div>'
 }
