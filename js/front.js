@@ -3,7 +3,6 @@ let getUserData = function (user_name){
 
     aPromise.then(
     function(result){
-        console.log(result.data)
         displayUserData(result.data)
     },
     function(error){
@@ -34,7 +33,6 @@ let getRepoLanguages = function (cur_repo){
 
     curRepoPromise.then(
         function(result){
-            console.log(result.data)
             drawPieChart(result.data)
         },
         function(error){
