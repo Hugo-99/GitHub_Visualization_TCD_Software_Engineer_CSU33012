@@ -22,6 +22,23 @@ let getUserLanguages = function (user_repos){
     console.log(list)
 }
 
+let getRepoLanguages = function (cur_repo){
+    let curRepoPromise = octokit.repos.listLanguages({
+        owner: input,
+        repo: cur_repo
+    })
+
+    curRepoPromise.then(
+        function(result){
+            console.log(result.data)
+        },
+        function(error){
+            console.log(error)
+        })
+    )
+
+}
+
 let displayRepos = function (user_repos){
     var repo_name;
     document.getElementById("dropDownRepo").innerHTML = ""
@@ -29,8 +46,7 @@ let displayRepos = function (user_repos){
         for (var key in user_repos.data){
             //onclick="drawBarChartsShort('${name}')"
             repo_name = user_repos.data[key].name
-            document.getElementById("dropDownRepo").innerHTML += `<option>${repo_name}</option>`
-
+            document.getElementById("dropDownRepo").innerHTML += `<option onclick="getRepoLanguages('${repo_name}')">${repo_name}</option>`
         }
     }
     catch (e) {
