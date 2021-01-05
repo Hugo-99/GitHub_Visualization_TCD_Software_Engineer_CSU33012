@@ -24,15 +24,17 @@ let getUserLanguages = function (user_repos){
 
 let displayRepos = function (user_repos){
     var repo_name;
-    for (var key in user_repos.data){
-        //onclick="drawBarChartsShort('${name}')"
-        repo_name = user_repos.data[key].name
-        document.getElementById("dropDownRepo").innerHTML = ""
-        try {
+    document.getElementById("dropDownRepo").innerHTML = ""
+    try {
+        for (var key in user_repos.data){
+            //onclick="drawBarChartsShort('${name}')"
+            repo_name = user_repos.data[key].name
             document.getElementById("dropDownRepo").innerHTML += `<option>${repo_name}</option>`
-        } catch (e) {
-            console.error(`Could not add repo to dropdown... Skipping \n ${e}`)
+
         }
+    }
+    catch (e) {
+        console.error(`Could not add repo to dropdown... Skipping \n ${e}`)
     }
 }
 
