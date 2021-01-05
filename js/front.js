@@ -67,11 +67,11 @@ let drawLineChart = function (cur_data){
         title: 'Line Dash',
         xaxis: {
           range: [0.75, 5.25],
-          autorange: false
+          autorange: true
         },
         yaxis: {
           range: [0, 18.5],
-          autorange: false
+          autorange: true
         },
         legend: {
           y: 0.5,
@@ -82,7 +82,7 @@ let drawLineChart = function (cur_data){
         }
       };
       
-      Plotly.newPlot('myDiv', data, layout);
+      Plotly.newPlot('lineDiv', data, layout);
 }
 
 let getRepoLanguages = function (cur_repo){
@@ -121,7 +121,7 @@ let drawPieChart = function (cur_data){
         width: 500
     };
       
-    Plotly.newPlot('myDiv', data, layout);
+    Plotly.newPlot('pieDiv', data, layout);
 }
 
 let displayUserData = function (user_info){
